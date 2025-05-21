@@ -98,7 +98,7 @@ class Repository(BaseModel):
     size: int
     stargazers_count: int
     watchers_count: int
-    language: str
+    language: Optional[str]
     has_issues: bool
     has_projects: bool
     has_downloads: bool
