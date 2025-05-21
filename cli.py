@@ -1,6 +1,10 @@
 import argparse
 import uuid
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from dependencies.db import add_key, delete_key, get_all_keys
 
 
