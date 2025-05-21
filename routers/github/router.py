@@ -192,7 +192,7 @@ async def github_webhook(
     message = f"""GitHub Webhook
 Log ID: {log_id}
 
-Repository: {data.repository.name}
+Repository: {data.repository.full_name}
 Pusher: {data.pusher.name}"""
 
     if data.commits:

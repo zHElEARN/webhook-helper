@@ -100,8 +100,8 @@ async def uptime_kuma_webhook(
     log_id = log_webhook("uptime-kuma", data.model_dump_json())
 
     message = f"""Uptime Kuma Webhook
-
 Log ID: {log_id}
+
 Monitor: {data.monitor.name}
 Message: {data.msg}"""
 

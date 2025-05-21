@@ -23,6 +23,7 @@ async def custom_webhook(
 
     message = f"""Custom Webhook
 Log ID: {log_id}
+
 {data.message}"""
 
     return await send_message(chat_info, data.message.strip())
