@@ -3,6 +3,7 @@ import os
 import uvicorn
 from dotenv import load_dotenv
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 
 load_dotenv()
 
@@ -11,6 +12,8 @@ from routers import router
 
 def create_app() -> FastAPI:
     app = FastAPI()
+
+    app.mount("/static", StaticFiles(directory="./static", html=True), name="static")
 
     app.include_router(router.webhook_router)
     app.include_router(router.logs_router)
