@@ -1,4 +1,3 @@
-import json
 from typing import Any, Dict, List, Optional
 
 from fastapi import APIRouter, Depends
@@ -98,6 +97,7 @@ async def uptime_kuma_webhook(
     data: UptimeKumaWebhook, chat_info: ChatInfo = Depends(verify_chat_info)
 ):
     message = f"""Uptime Kuma Webhook
+
 Monitor: {data.monitor.name}
 Message: {data.msg.strip()}
 """
