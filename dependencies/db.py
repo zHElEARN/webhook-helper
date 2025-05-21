@@ -1,10 +1,13 @@
 import os
 import uuid
 from datetime import datetime
-from turtle import st
 from typing import List, Optional
 
 from sqlmodel import Field, Session, SQLModel, create_engine, select
+
+WEBHOOK_ENDPOINT = os.environ.get("WEBHOOK_ENDPOINT")
+if not WEBHOOK_ENDPOINT:
+    raise ValueError("WEBHOOK_ENDPOINT environment variable is not set.")
 
 BASE_DIR = os.getcwd()
 DATA_DIR = os.path.join(BASE_DIR, "data")

@@ -3,7 +3,7 @@ from typing import Any, Dict, List, Optional
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 
-from dependencies.db import log_webhook
+from dependencies.db import WEBHOOK_ENDPOINT, log_webhook
 from dependencies.verify_chat_info import ChatInfo, verify_chat_info
 from dependencies.verify_key import verify_key
 from utils.onebot import SendMessageResponse, send_message
@@ -100,7 +100,7 @@ async def uptime_kuma_webhook(
     log_id = log_webhook("uptime-kuma", data.model_dump_json())
 
     message = f"""Uptime Kuma Webhook
-Log ID: {log_id}
+详细: {WEBHOOK_ENDPOINT}/static/?{log_id}
 
 Monitor: {data.monitor.name}
 Message: {data.msg}"""

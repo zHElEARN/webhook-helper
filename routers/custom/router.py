@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel, Field
 
-from dependencies.db import log_webhook
+from dependencies.db import WEBHOOK_ENDPOINT, log_webhook
 from dependencies.verify_chat_info import ChatInfo, verify_chat_info
 from dependencies.verify_key import verify_key
 from utils.onebot import SendMessageResponse, send_message
@@ -22,8 +22,8 @@ async def custom_webhook(
     log_id = log_webhook("custom", data.model_dump_json())
 
     message = f"""Custom Webhook
-Log ID: {log_id}
+详细: {WEBHOOK_ENDPOINT}/static/?{log_id}
 
 {data.message}"""
 
-    return await send_message(chat_info, data.message.strip())
+    return await send_message(chat_info, message.strip())

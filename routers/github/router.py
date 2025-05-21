@@ -3,7 +3,7 @@ from typing import Any, Dict, List, Optional
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 
-from dependencies.db import log_webhook
+from dependencies.db import WEBHOOK_ENDPOINT, log_webhook
 from dependencies.verify_chat_info import ChatInfo, verify_chat_info
 from dependencies.verify_key import verify_key
 from utils.onebot import send_message
@@ -190,7 +190,7 @@ async def github_webhook(
     log_id = log_webhook("github", data.model_dump_json())
 
     message = f"""GitHub Webhook
-Log ID: {log_id}
+详细: {WEBHOOK_ENDPOINT}/static/?{log_id}
 
 Repository: {data.repository.full_name}
 Pusher: {data.pusher.name}"""
