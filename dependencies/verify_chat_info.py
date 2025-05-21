@@ -7,7 +7,7 @@ class ChatInfo(BaseModel):
     chat_number: str
 
 
-async def chat_info(chat_type: str = Query(...), chat_number: str = Query(...)):
+async def verify_chat_info(chat_type: str = Query(...), chat_number: str = Query(...)):
     if chat_type not in ["group", "private"]:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,

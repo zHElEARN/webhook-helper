@@ -3,7 +3,7 @@ import os
 import aiohttp
 from pydantic import BaseModel
 
-from dependencies.chat_info import ChatInfo
+from dependencies.verify_chat_info import ChatInfo
 
 ONEBOT_API_URL = os.environ.get("ONEBOT_API_URL")
 if not ONEBOT_API_URL:
