@@ -12,7 +12,8 @@ from routers import router
 def create_app() -> FastAPI:
     app = FastAPI()
 
-    app.include_router(router.router)
+    app.include_router(router.webhook_router)
+    app.include_router(router.logs_router)
 
     return app
 
