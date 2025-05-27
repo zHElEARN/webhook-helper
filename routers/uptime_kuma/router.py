@@ -32,7 +32,7 @@ class Monitor(BaseModel):
     childrenIDs: List[Any] = []
     url: str
     method: str
-    hostname: str
+    hostname: Optional[str] = None
     port: Optional[int] = None
     maxretries: int
     weight: int
