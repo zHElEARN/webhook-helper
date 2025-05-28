@@ -9,6 +9,8 @@ ONEBOT_API_URL = os.environ.get("ONEBOT_API_URL")
 if not ONEBOT_API_URL:
     raise ValueError("ONEBOT_API_URL environment variable is not set.")
 
+ONEBOT_ACCESS_TOKEN = os.environ.get("ONEBOT_ACCESS_TOKEN")
+
 
 class SendMessageResponse(BaseModel):
     status: str
@@ -33,10 +35,14 @@ async def send_message(chat_info: ChatInfo, message: str):
         raise ValueError("Invalid chat type. Must be 'group' or 'private'.")
 
     async with aiohttp.ClientSession() as session:
+        headers = {"Content-Type": "application/json"}
+        if ONEBOT_ACCESS_TOKEN:
+            headers["Authorization"] = f"Bearer {ONEBOT_ACCESS_TOKEN}"
+
         async with session.post(
             f"{ONEBOT_API_URL}{endpoint}",
             json=payload,
-            headers={"Content-Type": "application/json"},
+            headers=headers,
         ) as response:
             if response.status != 200:
                 return SendMessageResponse(
