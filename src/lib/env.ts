@@ -5,4 +5,11 @@ if (!ADMIN_USERNAME || !ADMIN_PASSWORD) {
   throw new Error("Admin credentials are not set in environment variables.");
 }
 
-export { ADMIN_USERNAME, ADMIN_PASSWORD };
+const ONEBOT_API_URL = process.env.ONEBOT_API_URL;
+const ONEBOT_ACCESS_TOKEN = process.env.ONEBOT_ACCESS_TOKEN;
+
+if (!ONEBOT_API_URL) {
+  throw new Error("ONEBOT_API_URL is not set in environment variables.");
+}
+
+export { ADMIN_USERNAME, ADMIN_PASSWORD, ONEBOT_API_URL, ONEBOT_ACCESS_TOKEN };
