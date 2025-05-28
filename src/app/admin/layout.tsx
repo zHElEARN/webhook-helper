@@ -1,7 +1,14 @@
+import { Toaster } from "@/components/ui/sonner";
+
 export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <>Layout{children}</>;
+  return (
+    <>
+      <Toaster richColors />
+      {children}
+    </>
+  );
 }
