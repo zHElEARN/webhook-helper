@@ -33,10 +33,12 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="min-h-screen flex items-center justify-center">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl text-center">Webhook Helper 登录</CardTitle>
+          <CardTitle className="text-2xl text-center">
+            Webhook Helper 登录
+          </CardTitle>
           <CardDescription className="text-center">
             输入您的账号和密码以登录
           </CardDescription>
