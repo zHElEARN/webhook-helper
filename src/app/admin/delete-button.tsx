@@ -15,6 +15,7 @@ import {
 import { Trash2 } from "lucide-react";
 import { deleteAPIKey } from "./actions";
 import { useTransition } from "react";
+import { toast } from "sonner";
 
 interface DeleteButtonProps {
   id: string;
@@ -25,7 +26,12 @@ export const DeleteButton = ({ id }: DeleteButtonProps) => {
 
   const handleDelete = () => {
     startTransition(async () => {
-      await deleteAPIKey(id);
+      const result = await deleteAPIKey(id);
+      if (result.success) {
+        toast.success("删除成功");
+      } else {
+        toast.error(result.error);
+      }
     });
   };
 
@@ -33,8 +39,7 @@ export const DeleteButton = ({ id }: DeleteButtonProps) => {
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button disabled={isPending} variant="destructive" size="sm">
-          <Trash2 className="w-4 h-4 mr-2" />
-          {isPending ? "删除中..." : "删除"}
+          <Trash2 className="h-4 w-4" />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>

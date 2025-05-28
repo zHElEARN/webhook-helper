@@ -4,20 +4,26 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { createAPIKey } from "./actions";
 import { useTransition } from "react";
+import { toast } from "sonner";
 
 export const CreateButton = () => {
   const [isPending, startTransition] = useTransition();
 
   const handleCreate = () => {
     startTransition(async () => {
-      await createAPIKey();
+      const result = await createAPIKey();
+      if (result.success) {
+        toast.success("创建成功");
+      } else {
+        toast.error(result.error);
+      }
     });
   };
 
   return (
-    <Button onClick={handleCreate} disabled={isPending} className="mb-4">
-      <Plus className="w-4 h-4 mr-2" />
-      {isPending ? "创建中..." : "创建 API Key"}
+    <Button onClick={handleCreate} disabled={isPending}>
+      <Plus className="h-4 w-4" />
+      {!isPending && <span className="ml-1">创建</span>}
     </Button>
   );
 };
