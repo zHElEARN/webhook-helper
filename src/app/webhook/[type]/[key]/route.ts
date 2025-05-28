@@ -1,4 +1,5 @@
 import { isKeyExists } from "@/lib/api-key";
+import { sendMessage } from "@/lib/onebot";
 import { createResponse } from "@/lib/response";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -28,6 +29,20 @@ const POST = async (
 
   if (!(await isKeyExists(key))) {
     return createResponse({ error: "Invalid API key" }, 401);
+  }
+
+  if (type === "custom") {
+    const body = await request.json();
+
+    return createResponse(
+      await sendMessage(
+        {
+          chatType: chatType!,
+          chatNumber: chatNumber!,
+        },
+        body.message
+      )
+    );
   }
 
   return NextResponse.json({
