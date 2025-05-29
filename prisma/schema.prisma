@@ -1,0 +1,24 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model APIKey {
+  id  String @id @default(uuid()) @map("id")
+  key String @unique @map("key")
+
+  @@map("api_keys")
+}
+
+model WebhookLog {
+  id        String   @id @default(uuid()) @map("id")
+  type      String   @map("type")
+  payload   Json     @map("payload")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("webhook_logs")
+}
