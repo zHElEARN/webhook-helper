@@ -10,6 +10,7 @@ export const isKeyExists = async (key: string): Promise<boolean> => {
 
     return apiKey !== null;
   } catch (error) {
+    console.error("Error checking API key existence:", error);
     return false;
   }
 };

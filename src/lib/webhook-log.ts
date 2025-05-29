@@ -2,6 +2,7 @@ import { prisma } from "./db";
 
 export const logWebhook = async (
   type: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   payload: any
 ): Promise<{
   id: string | null;

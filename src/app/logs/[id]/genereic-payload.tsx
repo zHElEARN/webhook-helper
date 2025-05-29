@@ -2,7 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { CodeIcon } from "lucide-react";
 
 interface GenericPayloadProps {
-  payload: any;
+  payload: unknown;
 }
 
 export const GenericPayload = ({ payload }: GenericPayloadProps) => {

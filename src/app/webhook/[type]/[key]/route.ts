@@ -34,6 +34,7 @@ const POST = async (
   try {
     body = await request.json();
   } catch (error) {
+    console.error("Invalid JSON body:", error);
     return createResponse({ detail: "Invalid JSON" }, 400);
   }
 

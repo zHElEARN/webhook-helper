@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Copy, Check } from "lucide-react";
+import { Check, Copy } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -19,14 +19,15 @@ export const CopyButton = ({ text }: CopyButtonProps) => {
       toast.success("已复制到剪贴板");
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
+      console.error("复制失败:", error);
       toast.error("复制失败");
     }
   };
 
   return (
-    <Button 
-      onClick={handleCopy} 
-      variant="ghost" 
+    <Button
+      onClick={handleCopy}
+      variant="ghost"
       size="sm"
       className="h-8 w-8 p-0"
     >

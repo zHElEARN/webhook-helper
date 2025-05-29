@@ -24,7 +24,7 @@ interface LogItemProps {
     id: string;
     type: string;
     createdAt: Date;
-    payload?: any;
+    payload?: unknown;
   };
 }
 

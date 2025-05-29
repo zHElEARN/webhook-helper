@@ -12,6 +12,7 @@ export const getAPIKeys = async () => {
     });
     return { success: true, data: apiKeys };
   } catch (error) {
+    console.error("获取 API Keys 失败:", error);
     return {
       success: false,
       error: "获取 API Keys 失败",

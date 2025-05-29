@@ -8,7 +8,7 @@ import {
 import { ChevronRightIcon } from "lucide-react";
 
 interface RawDataCollapsibleProps {
-  payload: any;
+  payload: unknown;
 }
 
 export const RawDataCollapsible = ({ payload }: RawDataCollapsibleProps) => {

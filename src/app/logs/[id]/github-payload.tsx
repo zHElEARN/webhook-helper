@@ -205,7 +205,7 @@ export const GitHubPayload = ({ payload }: GitHubPayloadProps) => {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {payload.commits.map((commit, index) => (
+              {payload.commits.map((commit) => (
                 <div key={commit.id} className="border-l-2 border-muted pl-4">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
