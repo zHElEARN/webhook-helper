@@ -1,16 +1,16 @@
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AlertTriangle, Key } from "lucide-react";
 import { getAPIKeys } from "./actions";
+import { CopyButton } from "./copy-button";
 import { CreateButton } from "./create-button";
 import { DeleteButton } from "./delete-button";
 import { RefreshButton } from "./refresh-button";
-import { CopyButton } from "./copy-button";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertTriangle, Key } from "lucide-react";
 
 const AdminPage = async () => {
   const result = await getAPIKeys();
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="max-w-6xl mx-auto p-6">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">API Keys 管理</h1>
         <div className="flex gap-2">
