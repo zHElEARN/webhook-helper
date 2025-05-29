@@ -1,6 +1,7 @@
 import { Separator } from "@/components/ui/separator";
 import { CustomPayload } from "./custom-payload";
 import { GenericPayload } from "./genereic-payload";
+import { GitHubPayload } from "./github-payload";
 import { UptimeKumaPayload } from "./uptime-kuma-payload";
 
 interface WebhookLog {
@@ -21,6 +22,8 @@ export const PayloadRenderer = ({ webhookLog }: PayloadRendererProps) => {
         return <CustomPayload payload={webhookLog.payload} />;
       case "uptime-kuma":
         return <UptimeKumaPayload payload={webhookLog.payload} />;
+      case "github":
+        return <GitHubPayload payload={webhookLog.payload} />;
       default:
         return <GenericPayload payload={webhookLog.payload} />;
     }
