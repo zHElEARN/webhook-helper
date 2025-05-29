@@ -49,7 +49,7 @@ const POST = async (
         return createResponse({ detail: error }, 500);
       }
 
-      const message = `Custom Webhook\n详细: ${WEBHOOK_ENDPOINT}/log/${id}\n\n${validatedBody.message}`;
+      const message = `Custom Webhook\n详细: ${WEBHOOK_ENDPOINT}/logs/${id}\n\n${validatedBody.message}`;
 
       if (
         (
