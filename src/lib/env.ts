@@ -12,4 +12,15 @@ if (!ONEBOT_API_URL) {
   throw new Error("ONEBOT_API_URL is not set in environment variables.");
 }
 
-export { ADMIN_USERNAME, ADMIN_PASSWORD, ONEBOT_API_URL, ONEBOT_ACCESS_TOKEN };
+const WEBHOOK_ENDPOINT = process.env.WEBHOOK_ENDPOINT;
+if (!WEBHOOK_ENDPOINT) {
+  throw new Error("WEBHOOK_ENDPOINT is not set in environment variables.");
+}
+
+export {
+  ADMIN_USERNAME,
+  ADMIN_PASSWORD,
+  ONEBOT_API_URL,
+  ONEBOT_ACCESS_TOKEN,
+  WEBHOOK_ENDPOINT,
+};

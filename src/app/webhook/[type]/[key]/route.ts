@@ -1,9 +1,18 @@
 import { isKeyExists } from "@/lib/api-key";
+import { WEBHOOK_ENDPOINT } from "@/lib/env";
 import { sendMessage } from "@/lib/onebot";
 import { createResponse } from "@/lib/response";
+import { logWebhook } from "@/lib/webhook-log";
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
 const supportedTypes = ["github", "uptime-kuma", "custom"];
+
+const customMessageSchema = z
+  .object({
+    message: z.string(),
+  })
+  .strict();
 
 const POST = async (
   request: NextRequest,
@@ -20,29 +29,49 @@ const POST = async (
 
   const requiredParams = [type, key, chatType, chatNumber];
   if (requiredParams.some((param) => !param)) {
-    return createResponse({ error: "Missing required parameters" }, 400);
+    return createResponse({ datail: "Missing required parameters" }, 400);
   }
 
   if (!supportedTypes.includes(type)) {
-    return createResponse({ error: "Unsupported type" }, 400);
+    return createResponse({ datail: "Unsupported type" }, 400);
   }
 
   if (!(await isKeyExists(key))) {
-    return createResponse({ error: "Invalid API key" }, 401);
+    return createResponse({ datail: "Invalid API key" }, 401);
   }
 
   if (type === "custom") {
-    const body = await request.json();
+    try {
+      const validatedBody = customMessageSchema.parse(await request.json());
 
-    return createResponse(
-      await sendMessage(
-        {
-          chatType: chatType!,
-          chatNumber: chatNumber!,
-        },
-        body.message
-      )
-    );
+      const { id, error } = await logWebhook(type, validatedBody);
+      if (error) {
+        return createResponse({ detail: error }, 500);
+      }
+
+      const message = `Custom Webhook\n详细: ${WEBHOOK_ENDPOINT}/log/${id}\n\n${validatedBody.message}`;
+
+      if (
+        (
+          await sendMessage(
+            {
+              chatType: chatType!,
+              chatNumber: chatNumber!,
+            },
+            message
+          )
+        ).error
+      ) {
+        return createResponse({ detail: error }, 400);
+      }
+
+      return createResponse(null, 204);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return createResponse({ detail: "Invalid request body" }, 400);
+      }
+      return createResponse({ detail: "Invalid JSON" }, 400);
+    }
   }
 
   return NextResponse.json({
