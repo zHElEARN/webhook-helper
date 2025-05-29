@@ -1,5 +1,6 @@
 "use server";
 
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Badge } from "@/components/ui/badge";
 import { prisma } from "@/lib/db";
 import { CalendarIcon, HashIcon, MessageSquareIcon } from "lucide-react";
@@ -38,12 +39,15 @@ const LogPage = async ({
       <div className="pb-4">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold">Webhook 日志详情</h1>
-          <Badge
-            variant={webhookLog.type === "custom" ? "default" : "secondary"}
-            className="text-sm px-3 py-1"
-          >
-            类型: {webhookLog.type}
-          </Badge>
+          <div className="flex items-center space-x-2">
+            <Badge
+              variant={webhookLog.type === "custom" ? "default" : "secondary"}
+              className="text-sm px-3 py-1"
+            >
+              类型: {webhookLog.type}
+            </Badge>
+            <ThemeToggle />
+          </div>
         </div>
 
         <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t">
