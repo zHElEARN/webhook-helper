@@ -20,13 +20,14 @@ export const getAPIKeys = async () => {
   }
 };
 
-export const createAPIKey = async () => {
+export const createAPIKey = async (key: string) => {
   try {
-    await prisma.aPIKey.create({
-      data: {
-        key: crypto.randomUUID(),
-      },
-    });
+    const existing = await prisma.aPIKey.findFirst({ where: { key } });
+    if (existing) {
+      return { success: false, error: "API Key 已存在" };
+    }
+
+    await prisma.aPIKey.create({ data: { key } });
     revalidatePath("/admin");
     return { success: true };
   } catch (error) {
