@@ -2,7 +2,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import {
   BookIcon,
+  ChevronDownIcon,
   EditIcon,
   FileIcon,
   GitBranchIcon,
@@ -221,7 +227,7 @@ export const GitHubPayload = ({ payload }: GitHubPayloadProps) => {
                         {commit.message}
                       </p>
 
-                      <div className="flex flex-wrap gap-2 text-xs">
+                      <div className="flex flex-wrap gap-2 text-xs mb-3">
                         {commit.added.length > 0 && (
                           <div className="flex items-center gap-1 text-green-600">
                             <PlusIcon className="h-3 w-3" />
@@ -241,6 +247,84 @@ export const GitHubPayload = ({ payload }: GitHubPayloadProps) => {
                           </div>
                         )}
                       </div>
+
+                      {(commit.added.length > 0 ||
+                        commit.modified.length > 0 ||
+                        commit.removed.length > 0) && (
+                        <Collapsible>
+                          <CollapsibleTrigger className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors">
+                            <FileIcon className="h-3 w-3" />
+                            <span>查看文件变更</span>
+                            <ChevronDownIcon className="h-3 w-3" />
+                          </CollapsibleTrigger>
+                          <CollapsibleContent className="mt-2">
+                            <div className="space-y-3 border-l pl-3 ml-2">
+                              {commit.added.length > 0 && (
+                                <div>
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <PlusIcon className="h-3 w-3 text-green-600" />
+                                    <span className="text-xs font-medium text-green-600">
+                                      新增文件 ({commit.added.length})
+                                    </span>
+                                  </div>
+                                  <div className="space-y-1">
+                                    {commit.added.map((file) => (
+                                      <code
+                                        key={file}
+                                        className="block text-xs bg-green-50 dark:bg-green-950/20 px-2 py-1 rounded"
+                                      >
+                                        + {file}
+                                      </code>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+
+                              {commit.modified.length > 0 && (
+                                <div>
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <EditIcon className="h-3 w-3 text-primary" />
+                                    <span className="text-xs font-medium text-primary">
+                                      修改文件 ({commit.modified.length})
+                                    </span>
+                                  </div>
+                                  <div className="space-y-1">
+                                    {commit.modified.map((file) => (
+                                      <code
+                                        key={file}
+                                        className="block text-xs bg-primary/10 px-2 py-1 rounded"
+                                      >
+                                        M {file}
+                                      </code>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+
+                              {commit.removed.length > 0 && (
+                                <div>
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <MinusIcon className="h-3 w-3 text-red-600" />
+                                    <span className="text-xs font-medium text-red-600">
+                                      删除文件 ({commit.removed.length})
+                                    </span>
+                                  </div>
+                                  <div className="space-y-1">
+                                    {commit.removed.map((file) => (
+                                      <code
+                                        key={file}
+                                        className="block text-xs bg-red-50 dark:bg-red-950/20 px-2 py-1 rounded"
+                                      >
+                                        - {file}
+                                      </code>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </CollapsibleContent>
+                        </Collapsible>
+                      )}
                     </div>
                     <div className="text-xs text-muted-foreground">
                       {new Date(commit.timestamp).toLocaleString("zh-CN")}
@@ -248,83 +332,6 @@ export const GitHubPayload = ({ payload }: GitHubPayloadProps) => {
                   </div>
                 </div>
               ))}
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {payload.head_commit && (
-        <Card className="bg-muted/50">
-          <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
-              <FileIcon className="h-4 w-4" />
-              文件变更详情
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {payload.head_commit.added.length > 0 && (
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <PlusIcon className="h-4 w-4 text-green-600" />
-                    <span className="text-sm font-medium text-green-600">
-                      新增文件 ({payload.head_commit.added.length})
-                    </span>
-                  </div>
-                  <div className="space-y-1">
-                    {payload.head_commit.added.map((file) => (
-                      <code
-                        key={file}
-                        className="block text-xs bg-green-50 dark:bg-green-950/20 px-2 py-1 rounded"
-                      >
-                        + {file}
-                      </code>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {payload.head_commit.modified.length > 0 && (
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <EditIcon className="h-4 w-4 text-primary" />
-                    <span className="text-sm font-medium text-primary">
-                      修改文件 ({payload.head_commit.modified.length})
-                    </span>
-                  </div>
-                  <div className="space-y-1">
-                    {payload.head_commit.modified.map((file) => (
-                      <code
-                        key={file}
-                        className="block text-xs bg-primary/10 px-2 py-1 rounded"
-                      >
-                        M {file}
-                      </code>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {payload.head_commit.removed.length > 0 && (
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <MinusIcon className="h-4 w-4 text-red-600" />
-                    <span className="text-sm font-medium text-red-600">
-                      删除文件 ({payload.head_commit.removed.length})
-                    </span>
-                  </div>
-                  <div className="space-y-1">
-                    {payload.head_commit.removed.map((file) => (
-                      <code
-                        key={file}
-                        className="block text-xs bg-red-50 dark:bg-red-950/20 px-2 py-1 rounded"
-                      >
-                        - {file}
-                      </code>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
           </CardContent>
         </Card>
