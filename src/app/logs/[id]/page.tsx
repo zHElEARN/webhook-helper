@@ -1,6 +1,6 @@
 "use server";
 
-import { ThemeToggle } from "@/components/theme-toggle";
+import { ModeToggle } from "@/components/theme-toggle";
 import { Badge } from "@/components/ui/badge";
 import { prisma } from "@/lib/db";
 import { CalendarIcon, HashIcon, MessageSquareIcon } from "lucide-react";
@@ -46,7 +46,7 @@ const LogPage = async ({
             >
               类型: {webhookLog.type}
             </Badge>
-            <ThemeToggle />
+            <ModeToggle />
           </div>
         </div>
 

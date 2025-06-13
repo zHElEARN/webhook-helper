@@ -1,6 +1,6 @@
 "use client";
 
-import { ThemeToggle } from "@/components/theme-toggle";
+import { ModeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/sonner";
 import { FileText, Home, Key, LogOut } from "lucide-react";
@@ -20,7 +20,7 @@ export default function AdminLayout({
       <div className="min-h-screen bg-background relative">
         {children}
         <div className="absolute top-4 right-4">
-          <ThemeToggle />
+          <ModeToggle />
         </div>
         <Toaster richColors />
       </div>
@@ -69,7 +69,7 @@ export default function AdminLayout({
                 <LogOut className="h-4 w-4" />
                 退出登录
               </Button>
-              <ThemeToggle />
+              <ModeToggle />
             </nav>
           </div>
         </div>
