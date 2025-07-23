@@ -5,7 +5,7 @@ import { logWebhook } from "@/lib/webhook-log";
 import { z } from "zod";
 import { WebhookHandler, WebhookHandlerParams } from "@/types/webhook";
 
-const customMessageSchema = z.object({ message: z.string() }).strict();
+const customMessageSchema = z.object({ message: z.string() });
 
 export class CustomWebhookHandler implements WebhookHandler {
   async handle({
@@ -16,12 +16,18 @@ export class CustomWebhookHandler implements WebhookHandler {
     try {
       const validatedBody = customMessageSchema.parse(body);
 
+      const hasExtraFields =
+        Object.keys(body).length > Object.keys(validatedBody).length;
+      const displayMessage = hasExtraFields
+        ? `${validatedBody.message}\n（包含其他字段）`
+        : validatedBody.message;
+
       const { id, error } = await logWebhook("custom", validatedBody);
       if (error) {
         return createResponse({ detail: error }, 500);
       }
 
-      const message = `Custom Webhook\n详细: ${WEBHOOK_ENDPOINT}/logs/${id}\n\n${validatedBody.message}`;
+      const message = `Custom Webhook\n详细: ${WEBHOOK_ENDPOINT}/logs/${id}\n\n${displayMessage}`;
 
       const sendResult = await sendMessage({ chatType, chatNumber }, message);
 
