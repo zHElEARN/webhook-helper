@@ -22,7 +22,7 @@ export class CustomWebhookHandler implements WebhookHandler {
         ? `${validatedBody.message}\n（包含其他字段）`
         : validatedBody.message;
 
-      const { id, error } = await logWebhook("custom", validatedBody);
+      const { id, error } = await logWebhook("custom", body);
       if (error) {
         return createResponse({ detail: error }, 500);
       }
