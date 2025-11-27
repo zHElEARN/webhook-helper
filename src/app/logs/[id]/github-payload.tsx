@@ -271,7 +271,7 @@ export const GitHubPayload = ({ payload }: GitHubPayloadProps) => {
                                     {commit.added.map((file) => (
                                       <code
                                         key={file}
-                                        className="block text-xs bg-green-50 dark:bg-green-950/20 px-2 py-1 rounded"
+                                        className="block text-xs bg-green-50 dark:bg-green-950/20 px-2 py-1 rounded break-all whitespace-pre-wrap"
                                       >
                                         + {file}
                                       </code>
@@ -292,7 +292,7 @@ export const GitHubPayload = ({ payload }: GitHubPayloadProps) => {
                                     {commit.modified.map((file) => (
                                       <code
                                         key={file}
-                                        className="block text-xs bg-primary/10 px-2 py-1 rounded"
+                                        className="block text-xs bg-primary/10 px-2 py-1 rounded break-all whitespace-pre-wrap"
                                       >
                                         M {file}
                                       </code>
@@ -313,7 +313,7 @@ export const GitHubPayload = ({ payload }: GitHubPayloadProps) => {
                                     {commit.removed.map((file) => (
                                       <code
                                         key={file}
-                                        className="block text-xs bg-red-50 dark:bg-red-950/20 px-2 py-1 rounded"
+                                        className="block text-xs bg-red-50 dark:bg-red-950/20 px-2 py-1 rounded break-all whitespace-pre-wrap"
                                       >
                                         - {file}
                                       </code>
