@@ -106,7 +106,7 @@ export class UptimeKumaWebhookHandler implements WebhookHandler {
         return createResponse({ detail: error }, 500);
       }
 
-      const message = `Uptime Kuma Webhook\n详细: ${WEBHOOK_ENDPOINT}/logs/${id}\n\nMonitor: ${validatedBody.monitor.name}\nMessage: ${validatedBody.msg}`;
+      const message = `Uptime Kuma Webhook\n详细: ${WEBHOOK_ENDPOINT}/logs/${id}\n\n监视器: ${validatedBody.monitor.name}\n信息: ${validatedBody.msg}`;
 
       const sendResult = await sendMessage({ chatType, chatNumber }, message);
 

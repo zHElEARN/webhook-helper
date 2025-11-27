@@ -141,6 +141,7 @@ const commitUserSchema = z
   .object({
     name: z.string(),
     email: z.string(),
+    date: z.string(),
     username: z.string().optional(),
   })
   .strict();
@@ -201,7 +202,7 @@ export class GitHubWebhookHandler implements WebhookHandler {
         return createResponse({ detail: error }, 500);
       }
 
-      let message = `GitHub Webhook\n详细: ${WEBHOOK_ENDPOINT}/logs/${id}\n\nRepository: ${validatedBody.repository.full_name}\nPusher: ${validatedBody.pusher.name}`;
+      let message = `GitHub Webhook\n详细: ${WEBHOOK_ENDPOINT}/logs/${id}\n\n仓库: ${validatedBody.repository.full_name}\n推送者: ${validatedBody.pusher.name}`;
 
       if (validatedBody.commits && validatedBody.commits.length > 0) {
         message += "\n";
