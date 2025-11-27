@@ -3,6 +3,11 @@ import { ADMIN_PASSWORD, ADMIN_USERNAME } from "./lib/env";
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+  const ip =
+    request.headers.get("x-forwarded-for") || (request as any).ip || "unknown";
+  console.log(
+    `[${new Date().toISOString()}](${ip}) ${request.method} ${pathname}`
+  );
   const token = request.cookies.get("token")?.value;
   const isAuthenticated = btoa(`${ADMIN_USERNAME}:${ADMIN_PASSWORD}`) === token;
 
@@ -22,5 +27,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };

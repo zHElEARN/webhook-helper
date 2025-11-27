@@ -117,8 +117,14 @@ export class UptimeKumaWebhookHandler implements WebhookHandler {
       return createResponse(null, 204);
     } catch (error) {
       if (error instanceof z.ZodError) {
-        console.error("Invalid request body:", error.errors);
-        return createResponse({ detail: "Invalid request body" }, 400);
+        console.error(
+          `[${new Date().toISOString()}] Invalid request body:`,
+          error.errors
+        );
+        return createResponse(
+          { detail: "Invalid request body", errors: error.errors },
+          400
+        );
       }
       return createResponse({ detail: "Invalid JSON" }, 400);
     }
