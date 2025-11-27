@@ -4,6 +4,7 @@ import { ADMIN_PASSWORD, ADMIN_USERNAME } from "./lib/env";
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const ip =
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     request.headers.get("x-forwarded-for") || (request as any).ip || "unknown";
   console.log(
     `[${new Date().toISOString()}](${ip}) ${request.method} ${pathname}`
