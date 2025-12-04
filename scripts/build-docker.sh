@@ -25,4 +25,11 @@ else
   
   # Build and push to registry
   docker buildx build --platform linux/amd64,linux/arm64 -t "$IMAGE" --push .
+
+  # If TAG is not latest, also tag as latest
+  if [ "$TAG" != "latest" ]; then
+    LATEST_IMAGE="$REGISTRY/$APP_NAME:latest"
+    echo "Tagging $IMAGE as $LATEST_IMAGE"
+    docker buildx imagetools create -t "$LATEST_IMAGE" "$IMAGE"
+  fi
 fi
