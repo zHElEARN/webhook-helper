@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Dice6, Edit } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface CreateModalProps {
   open: boolean;
@@ -37,11 +37,16 @@ export const CreateModal = ({
     setRandomKey(newKey);
   };
 
-  useEffect(() => {
-    if (open && !randomKey) {
-      generateRandomKey();
-    }
-  }, [open, randomKey]);
+  const [prevOpen, setPrevOpen] = useState(false);
+
+  if (open && !prevOpen) {
+    generateRandomKey();
+    setCustomKey("");
+    setMode("random");
+    setPrevOpen(true);
+  } else if (!open && prevOpen) {
+    setPrevOpen(false);
+  }
 
   const handleConfirm = () => {
     const keyToUse = mode === "random" ? randomKey : customKey;
