@@ -14,7 +14,7 @@ const relationshipDataSchema = z.object({
 });
 
 const appStoreVersionRelationshipSchema = z.object({
-  appStoreVersion: relationshipDataSchema,
+  instance: relationshipDataSchema,
 });
 
 const stateChangeAttributesSchema = z.object({
@@ -52,6 +52,7 @@ const STATUS_MAP: Record<string, string> = {
   METADATA_REJECTED: "元数据被拒绝",
   ACCEPTED: "审核通过",
   READY_FOR_SALE: "已上架",
+  PENDING_DEVELOPER_RELEASE: "等待开发者发布",
   DEVELOPER_REMOVED_FROM_SALE: "开发者下架",
 };
 
