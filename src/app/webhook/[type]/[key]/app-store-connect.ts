@@ -1,3 +1,4 @@
+import { WEBHOOK_ENDPOINT } from "@/lib/env";
 import { sendMessage } from "@/lib/onebot";
 import { createResponse } from "@/lib/response";
 import { logWebhook } from "@/lib/webhook-log";
@@ -45,17 +46,6 @@ const appStoreConnectEventSchema = z.object({
   data: z.discriminatedUnion("type", [stateChangeDataSchema, pingDataSchema]),
 });
 
-const STATUS_MAP: Record<string, string> = {
-  WAITING_FOR_REVIEW: "等待审核",
-  IN_REVIEW: "审核中",
-  REJECTED: "被拒绝",
-  METADATA_REJECTED: "元数据被拒绝",
-  ACCEPTED: "审核通过",
-  READY_FOR_SALE: "已上架",
-  PENDING_DEVELOPER_RELEASE: "等待开发者发布",
-  DEVELOPER_REMOVED_FROM_SALE: "开发者下架",
-};
-
 export class AppStoreConnectWebhookHandler implements WebhookHandler {
   async handle({
     chatType,
@@ -66,7 +56,7 @@ export class AppStoreConnectWebhookHandler implements WebhookHandler {
       const parsedBody = appStoreConnectEventSchema.parse(body);
       const eventData = parsedBody.data;
 
-      const { error } = await logWebhook("app-store-connect", parsedBody);
+      const { id, error } = await logWebhook("app-store-connect", parsedBody);
       if (error) {
         return createResponse({ detail: error }, 500);
       }
@@ -76,13 +66,13 @@ export class AppStoreConnectWebhookHandler implements WebhookHandler {
       switch (eventData.type) {
         case "appStoreVersionAppVersionStateUpdated": {
           const { oldValue, newValue, timestamp } = eventData.attributes;
-          const oldStatus = STATUS_MAP[oldValue] || oldValue;
-          const newStatus = STATUS_MAP[newValue] || newValue;
+          const oldStatus = oldValue;
+          const newStatus = newValue;
           const formattedTime = new Date(timestamp).toLocaleString("zh-CN", {
             timeZone: "Asia/Shanghai",
           });
 
-          message = `App Store Connect 状态变更\n\n旧状态: ${oldStatus}\n新状态: ${newStatus}\n时间: ${formattedTime}`;
+          message = `App Store Connect 状态变更\n详细: ${WEBHOOK_ENDPOINT}/logs/${id}\n\n旧状态: ${oldStatus}\n新状态: ${newStatus}\n时间: ${formattedTime}`;
           break;
         }
         case "webhookPingCreated": {
@@ -90,7 +80,7 @@ export class AppStoreConnectWebhookHandler implements WebhookHandler {
           const formattedTime = new Date(timestamp).toLocaleString("zh-CN", {
             timeZone: "Asia/Shanghai",
           });
-          message = `App Store Connect 测试 Ping\n\n接收时间: ${formattedTime}`;
+          message = `App Store Connect 测试 Ping\n详细: ${WEBHOOK_ENDPOINT}/logs/${id}\n\n接收时间: ${formattedTime}`;
           break;
         }
       }
